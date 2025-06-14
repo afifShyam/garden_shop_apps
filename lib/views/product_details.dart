@@ -35,9 +35,7 @@ class ProductDetailView extends StatelessWidget {
               backgroundColor: colorScheme.primary,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
-            onPressed: () {
-              // Handle add to cart
-            },
+            onPressed: () {},
             child: const Text(
               'Add to Cart',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -48,15 +46,9 @@ class ProductDetailView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Product Image
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Assets.images.image.image(),
-            // Image.network(imageUrl, height: 250, width: double.infinity, fit: BoxFit.cover),
-          ),
+          ClipRRect(borderRadius: BorderRadius.circular(16), child: Assets.images.image.image()),
           const SizedBox(height: 20),
 
-          // Title & Price
           Text(title, style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           Text(subtitle, style: textTheme.bodyMedium?.copyWith(color: Colors.grey[600])),
@@ -70,7 +62,6 @@ class ProductDetailView extends StatelessWidget {
           ),
           const SizedBox(height: 24),
 
-          // Description Placeholder
           Text('Description', style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           const Text(

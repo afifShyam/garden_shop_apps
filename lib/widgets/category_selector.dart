@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:garden_shop/gen/assets.gen.dart'; // adjust path if needed
+import 'package:garden_shop/gen/assets.gen.dart';
 
 class CategoryScrollSlider extends StatefulWidget {
   final List<Widget> icons;

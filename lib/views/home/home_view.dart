@@ -38,7 +38,6 @@ class HomeView extends StatelessWidget {
               ],
             ),
 
-            // Circle icon list
             SizedBox(
               height: 100,
               child: ListView.separated(

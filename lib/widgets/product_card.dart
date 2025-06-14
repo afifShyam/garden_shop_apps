@@ -41,7 +41,6 @@ class ProductCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Product Image
               Stack(
                 children: [
                   ClipRRect(
@@ -71,7 +70,7 @@ class ProductCard extends StatelessWidget {
                   ],
                 ],
               ),
-              // Padding for text content
+
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(

@@ -69,9 +69,7 @@ class _MessageItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       trailing: Text(time, style: theme.textTheme.bodySmall?.copyWith(color: theme.hintColor)),
-      onTap: () {
-        // handle navigation to detail
-      },
+      onTap: () {},
     );
   }
 }

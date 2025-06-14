@@ -8,9 +8,8 @@ class TrendDiscoverSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
 
-    // Generate ProductCard widgets
     final products = List.generate(4, (index) {
       final isShort = index % 3 == 0;
       return ProductCard(
@@ -29,10 +28,8 @@ class TrendDiscoverSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Banner
           Assets.images.trendingDiscoveries.image(width: size.width, fit: BoxFit.cover),
 
-          // Balanced Masonry Grid
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: BalancedMasonryGrid(children: products),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:garden_shop/gen/assets.gen.dart';
+import 'package:garden_shop/viewmodels/index.dart';
 
 import 'package:garden_shop/widgets/index.dart';
+import 'package:provider/provider.dart';
 
 class DiscoverView extends StatelessWidget {
   const DiscoverView({super.key});
@@ -16,7 +18,6 @@ class DiscoverView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // Friendly intro
           Text(
             "Let's Discover 🌿",
             style: textTheme.headlineSmall?.copyWith(
@@ -32,21 +33,18 @@ class DiscoverView extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          // Recommended Section
           _SectionTitle(title: 'Recommended for You'),
           const SizedBox(height: 12),
           const _HorizontalCardList(),
 
           const SizedBox(height: 32),
 
-          // Trending Section
           _SectionTitle(title: 'Trending Now'),
           const SizedBox(height: 12),
           const _HorizontalImageList(),
 
           const SizedBox(height: 32),
 
-          // Categories Section
           _SectionTitle(title: 'Browse Categories'),
           const SizedBox(height: 12),
           const _CategoryGrid(),
@@ -73,23 +71,47 @@ class _SectionTitle extends StatelessWidget {
   }
 }
 
-class _HorizontalCardList extends StatelessWidget {
+class _HorizontalCardList extends StatefulWidget {
   const _HorizontalCardList();
 
   @override
+  State<_HorizontalCardList> createState() => _HorizontalCardListState();
+}
+
+class _HorizontalCardListState extends State<_HorizontalCardList> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<DiscoverViewModel>().loadProducts();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final model = context.watch<DiscoverViewModel>();
+
+    if (model.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return SizedBox(
-      height: 300,
+      height: 330,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: 5,
+        itemCount: model.recommended.length,
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
+          final product = model.recommended[index];
           return ProductCard(
-            imageUrl: Assets.images.image.path,
-            subtitle: 'subtitle',
-            title: 'title',
-            price: 'price',
+            imageUrl: product.imageUrl,
+            title: product.title,
+            subtitle: product.subtitle,
+            price:
+                product.discountPrice > 0 ? 'RM ${product.discountPrice}' : 'RM ${product.price}',
+            discountPercent: product.discountPercent,
+            discountPrice: product.discountPrice,
+            isDiscount: product.discountPrice > 0,
           );
         },
       ),

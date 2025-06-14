@@ -19,7 +19,6 @@ class _MainShellState extends State<MainShell> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Keep tab index in sync with route
     final location = GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
     final index = _tabs.indexWhere((tab) => location.startsWith(tab));
     if (index != -1 && index != _currentIndex) {

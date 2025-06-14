@@ -14,7 +14,6 @@ class AccountView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // Profile Header
           Row(
             children: [
               CircleAvatar(
@@ -44,25 +43,20 @@ class AccountView extends StatelessWidget {
           ),
           const SizedBox(height: 30),
 
-          // Quick Actions
           _SectionTitle(title: 'My Stuff'),
           _ActionTile(icon: Icons.shopping_bag, label: 'My Orders', onTap: () {}),
           _ActionTile(icon: Icons.favorite, label: 'Wishlist', onTap: () {}),
           _ActionTile(icon: Icons.location_on, label: 'Addresses', onTap: () {}),
           const SizedBox(height: 30),
 
-          // Settings
           _SectionTitle(title: 'Settings'),
           _ActionTile(icon: Icons.notifications, label: 'Notifications', onTap: () {}),
           _ActionTile(icon: Icons.settings, label: 'App Settings', onTap: () {}),
           _ActionTile(icon: Icons.help_outline, label: 'Help Center', onTap: () {}),
           const SizedBox(height: 30),
 
-          // Logout
           TextButton.icon(
-            onPressed: () {
-              // Handle logout
-            },
+            onPressed: () {},
             icon: const Icon(Icons.logout),
             label: const Text('Logout'),
             style: TextButton.styleFrom(

@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:garden_shop/providers/mall_provider.dart';
 import 'package:garden_shop/routes/main_shell.dart';
-import 'package:garden_shop/viewmodels/mall_vm.dart';
+import 'package:garden_shop/viewmodels/index.dart';
+
 import 'package:garden_shop/views/index.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-/// ✅ Main GoRouter instance
 final GoRouter appRouter = GoRouter(
   initialLocation: '/home',
   routes: [
-    /// ✅ ShellRoute (with bottom navigation bar)
     ShellRoute(
       builder: (context, state, child) => wrapWithBackHandler(context, MainShell(child: child)),
       routes: [
@@ -37,8 +36,13 @@ final GoRouter appRouter = GoRouter(
           path: '/discover',
           name: 'discover',
           pageBuilder:
-              (context, state) =>
-                  buildPageWithTransition(state: state, child: const DiscoverView()),
+              (context, state) => buildPageWithTransition(
+                state: state,
+                child: ChangeNotifierProvider(
+                  create: (context) => DiscoverViewModel(discoverRepository),
+                  child: const DiscoverView(),
+                ),
+              ),
         ),
         GoRoute(
           path: '/inbox',
@@ -55,7 +59,6 @@ final GoRouter appRouter = GoRouter(
       ],
     ),
 
-    /// ✅ Non-shell route (outside Bottom Nav)
     GoRoute(
       path: '/product/:id',
       name: 'product_detail',
@@ -78,7 +81,6 @@ final GoRouter appRouter = GoRouter(
   ],
 );
 
-/// ✅ Back handler wrapper using PopScope
 Widget wrapWithBackHandler(BuildContext context, Widget child) {
   return PopScope(
     canPop: !GoRouter.of(context).canPop(),
@@ -96,7 +98,6 @@ Widget wrapWithBackHandler(BuildContext context, Widget child) {
   );
 }
 
-/// ✅ Helper Function to build custom transitions safely
 Page<dynamic> buildPageWithTransition({
   required Widget child,
   required GoRouterState state,
@@ -134,5 +135,4 @@ Page<dynamic> buildPageWithTransition({
   );
 }
 
-/// ✅ Enum for transition types
 enum TransitionType { fade, slide, scale, cupertino }
