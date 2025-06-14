@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:garden_shop/routes/index.dart';
+import 'package:go_router/go_router.dart';
 
 class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool centerTitle;
   final bool showBack;
   final List<Widget>? actions;
+  final double height;
+  final IconData backIcon;
 
   const StandardAppBar({
     super.key,
@@ -12,6 +16,8 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.centerTitle = true,
     this.showBack = false,
     this.actions,
+    this.height = kToolbarHeight,
+    this.backIcon = Icons.arrow_back_ios,
   });
 
   @override
@@ -23,11 +29,23 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
       foregroundColor: theme.colorScheme.onPrimary,
       elevation: 0,
       centerTitle: centerTitle,
+      automaticallyImplyLeading: false,
       leading:
-          showBack
+          RouteStack.canPop
               ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () => Navigator.of(context).maybePop(),
+                onPressed: () {
+                  RouteStack.pop();
+                  final previous = RouteStack.previous ?? '/home';
+                  context.go(previous);
+                },
+                icon: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.12),
+                  ),
+                  child: const Icon(Icons.arrow_back_ios, size: 18, color: Colors.white),
+                ),
               )
               : null,
       title: Text(
@@ -43,5 +61,5 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(height);
 }

@@ -1,40 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:garden_shop/viewmodels/index.dart';
 import 'package:garden_shop/views/mall/index.dart';
 import 'package:garden_shop/widgets/index.dart';
+import 'package:provider/provider.dart';
 
-class MallView extends StatelessWidget {
+class MallView extends StatefulWidget {
   const MallView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final products = List.generate(20, (index) {
-      final isShort = index % 3 == 0;
-      return ProductCard(
-        imageUrl: 'https://via.placeholder.com/300x20${(index + 1) % 10}',
-        subtitle: 'Lorem Ipsum',
-        title:
-            isShort
-                ? 'Lorem ipsum dolor sit amet'
-                : 'Lorem ipsum dolor sit amet consectetur adipiscing elit. Lorem',
-        price: 'RM ${(index + 1) * 10}.00',
-      );
-    });
+  State<MallView> createState() => _MallViewState();
+}
 
+class _MallViewState extends State<MallView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<MallViewModel>().loadProducts();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const StandardAppBar(title: 'Mall'),
       body: CustomScrollView(
         slivers: [
-          // Sticky search bar
+          // ✅ Keep your original search bar
           SliverPersistentHeader(
             pinned: true,
-            delegate: StickySearchBarDelegate(child: const MallSearchBar()),
+            delegate: StickySearchBarDelegate(
+              child: MallSearchBar(
+                onChanged: (query) {
+                  context.read<MallViewModel>().searchProducts(query);
+                },
+                onFilterPressed: () {
+                  final vm = context.read<MallViewModel>();
+
+                  showPriceFilterSheet(
+                    context,
+                    currentMin: vm.minPrice,
+                    currentMax: vm.maxPrice,
+                    enableDiscountFilter: vm.enableDiscountFilter,
+                    currentMinDiscount: vm.minDiscount,
+                    currentMaxDiscount: vm.maxDiscount,
+                    onApply: (min, max, enable, minDisc, maxDisc) {
+                      vm.filterByPrice(min, max);
+                      vm.toggleDiscountFilter(enable);
+                      if (enable) {
+                        vm.filterByDiscountRange(minDisc, maxDisc);
+                      }
+                    },
+                    onReset: vm.resetFilters,
+                  );
+                },
+              ),
+            ),
           ),
 
-          // Grid content (non-sticky)
+          // ✅ Updated grid to use filteredProducts
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: BalancedMasonryGrid(children: products),
+              child: Consumer<MallViewModel>(
+                builder: (context, model, _) {
+                  if (model.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (model.filteredProducts.isEmpty) {
+                    return const Center(child: Text('No products found.'));
+                  }
+
+                  return BalancedMasonryGrid(
+                    children: List.generate(model.filteredProducts.length, (index) {
+                      final product = model.filteredProducts[index];
+                      return ProductCard(
+                        imageUrl: product.imageUrl,
+                        title: product.title,
+                        subtitle: product.subtitle,
+                        price: 'RM ${product.price}',
+                        discountPrice: product.discountPrice,
+                        discountPercent: product.discountPercent,
+                        isDiscount: product.discountPrice > 0,
+                      );
+                    }),
+                  );
+                },
+              ),
             ),
           ),
         ],

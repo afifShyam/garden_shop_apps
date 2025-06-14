@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MallSearchBar extends StatefulWidget {
-  const MallSearchBar({super.key});
+  const MallSearchBar({super.key, required this.onChanged, required this.onFilterPressed});
+
+  final Function(String) onChanged;
+  final VoidCallback onFilterPressed;
 
   @override
   State<MallSearchBar> createState() => _MallSearchBarState();
@@ -12,14 +15,9 @@ class _MallSearchBarState extends State<MallSearchBar> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    focusNode.addListener(() {});
-  }
-
-  @override
   void dispose() {
     focusNode.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -48,8 +46,9 @@ class _MallSearchBarState extends State<MallSearchBar> {
             child: TextField(
               focusNode: focusNode,
               controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search Salon',
+              onChanged: widget.onChanged,
+              decoration: const InputDecoration(
+                hintText: 'Search Plants',
                 border: InputBorder.none,
                 isDense: true,
               ),
@@ -58,9 +57,7 @@ class _MallSearchBarState extends State<MallSearchBar> {
           ),
           IconButton(
             icon: const Icon(Icons.tune, color: Colors.grey),
-            onPressed: () {
-              // TODO: handle filter tap
-            },
+            onPressed: widget.onFilterPressed,
           ),
         ],
       ),
