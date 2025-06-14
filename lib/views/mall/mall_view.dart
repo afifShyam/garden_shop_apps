@@ -28,7 +28,6 @@ class _MallViewState extends State<MallView> {
       appBar: const StandardAppBar(title: 'Mall'),
       body: CustomScrollView(
         slivers: [
-          // ✅ Keep your original search bar
           SliverPersistentHeader(
             pinned: true,
             delegate: StickySearchBarDelegate(
@@ -60,7 +59,6 @@ class _MallViewState extends State<MallView> {
             ),
           ),
 
-          // ✅ Updated grid to use filteredProducts
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
