@@ -1,0 +1,102 @@
+# -----------------------------------
+# Flutter / Dart
+# -----------------------------------
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.metadata
+.melos_tool/
+.pub-cache/
+.pub/
+build/
+generated_plugin_registrant.dart
+
+# Localization
+**/l10n/*.dart
+
+# Symbolication and obfuscation
+app.*.symbols
+app.*.map.json
+
+# Coverage
+coverage/
+
+# -----------------------------------
+# iOS / macOS
+# -----------------------------------
+ios/Flutter/.last_build_id
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/ephemeral/
+Runner.xcodeproj/project.xcworkspace/
+*.xcworkspace
+*.xcuserdata
+*.xcuserstate
+
+macos/Flutter/ephemeral/
+macos/Pods/
+macos/.symlinks/
+macos/Flutter/Flutter.framework
+macos/Flutter/Flutter.podspec
+macos/Runner.xcworkspace/
+macos/Runner.xcuserstate
+
+# -----------------------------------
+# Android
+# -----------------------------------
+android/.gradle/
+android/.idea/
+android/local.properties
+android/key.properties
+android/app/debug
+android/app/profile
+android/app/release
+*.jks
+*.keystore
+
+# -----------------------------------
+# Windows / Linux
+# -----------------------------------
+windows/
+linux/
+!windows/README.md
+!linux/README.md
+
+# -----------------------------------
+# IDEs / Editors
+# -----------------------------------
+.idea/
+*.iml
+*.ipr
+*.iws
+
+.vscode/
+*.code-workspace
+
+# -----------------------------------
+# Miscellaneous
+# -----------------------------------
+*.lock
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*.DS_Store
+.history
+*.class
+*.pyc
+*.bak
+*.orig
+
+# -----------------------------------
+# Firebase & Secrets (keep safe!)
+# -----------------------------------
+firebase_options.dart
+.env
+*.env
+.env.*
