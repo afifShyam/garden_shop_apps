@@ -95,8 +95,12 @@ class _HorizontalCardListState extends State<_HorizontalCardList> {
       return const Center(child: CircularProgressIndicator());
     }
 
+    final screenHeight = MediaQuery.sizeOf(context).height;
+
+    final dynamicCardHeight = screenHeight * 0.37;
+
     return SizedBox(
-      height: 330,
+      height: dynamicCardHeight,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: model.recommended.length,

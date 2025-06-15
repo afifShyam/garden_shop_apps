@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garden_shop/data/index.dart';
 import 'package:garden_shop/gen/assets.gen.dart';
 import 'package:garden_shop/widgets/index.dart';
 
@@ -47,13 +48,16 @@ class ServicesSection extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 318,
+            height: MediaQuery.sizeOf(context).height * 0.36,
             child: ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(width: 8),
+              primary: false,
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
+
+              separatorBuilder: (context, index) => const SizedBox(width: 10),
               itemCount: 10,
               itemBuilder: (context, index) {
-                return const ProductCard(
+                return ProductCard(
                   imageUrl: '',
                   title: 'This is a flower shop, you can buy flower here.',
                   subtitle: 'Flower',
@@ -64,13 +68,7 @@ class ServicesSection extends StatelessWidget {
           ),
           const SizedBox(height: 25),
           CategoryScrollSlider(
-            icons: [
-              Assets.images.shopPlantsIcon1.image(),
-              Assets.images.shopPlantsIcon2.image(),
-              Assets.images.shopPlantsIcon3.image(),
-              Assets.images.shopPlantsIcon4.image(),
-              Assets.images.shopPlantsIcon5.image(),
-            ],
+            icons: categoriesDummyData2.map((e) => Image.asset(e.path)).toList(),
           ),
         ],
       ),

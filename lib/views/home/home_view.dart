@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garden_shop/data/index.dart';
 import 'package:garden_shop/gen/assets.gen.dart';
 import 'package:garden_shop/views/index.dart';
 
@@ -44,8 +45,9 @@ class HomeView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.only(left: 24),
                 separatorBuilder: (context, index) => const SizedBox(width: 16),
-                itemCount: 10,
+                itemCount: categoriesDummyData.length,
                 itemBuilder: (context, index) {
+                  final category = categoriesDummyData[index];
                   return Container(
                     width: 78,
                     height: 78,
@@ -53,7 +55,7 @@ class HomeView extends StatelessWidget {
                       shape: const CircleBorder(),
                       color: theme.scaffoldBackgroundColor,
                     ),
-                    child: Assets.images.buttonIcon1.image(),
+                    child: Image.asset(category.path),
                   );
                 },
               ),
@@ -74,7 +76,7 @@ class HomeView extends StatelessWidget {
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: theme.colorScheme.onPrimary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        fixedSize: const Size.fromWidth(100),
+        fixedSize: Size.fromWidth(MediaQuery.sizeOf(context).width * 0.25),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
       onPressed: () {},

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garden_shop/gen/assets.gen.dart';
+import 'package:garden_shop/routes/index.dart';
+
 import 'package:go_router/go_router.dart';
 
 class MainShell extends StatefulWidget {
@@ -39,7 +41,23 @@ class _MainShellState extends State<MainShell> {
         onTap: (index) {
           if (_currentIndex != index) {
             setState(() => _currentIndex = index);
-            context.go(_tabs[index]);
+            switch (index) {
+              case 0:
+                Nav.home(context);
+                break;
+              case 1:
+                Nav.mall(context);
+                break;
+              case 2:
+                Nav.discover(context);
+                break;
+              case 3:
+                Nav.inbox(context);
+                break;
+              case 4:
+                Nav.account(context);
+                break;
+            }
           }
         },
         items: [

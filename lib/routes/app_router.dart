@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:garden_shop/providers/mall_provider.dart';
-import 'package:garden_shop/routes/main_shell.dart';
+import 'package:garden_shop/routes/index.dart';
+
 import 'package:garden_shop/viewmodels/index.dart';
 
 import 'package:garden_shop/views/index.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/home',
+  observers: [RouteStackObserver()],
   routes: [
     ShellRoute(
       builder: (context, state, child) => wrapWithBackHandler(context, MainShell(child: child)),
@@ -19,6 +21,7 @@ final GoRouter appRouter = GoRouter(
           name: 'home',
           pageBuilder:
               (context, state) => buildPageWithTransition(state: state, child: const HomeView()),
+          routes: [],
         ),
         GoRoute(
           path: '/mall',
@@ -31,6 +34,7 @@ final GoRouter appRouter = GoRouter(
                   child: const MallView(),
                 ),
               ),
+          routes: [],
         ),
         GoRoute(
           path: '/discover',
@@ -43,6 +47,7 @@ final GoRouter appRouter = GoRouter(
                   child: const DiscoverView(),
                 ),
               ),
+          routes: [],
         ),
         GoRoute(
           path: '/inbox',
@@ -58,7 +63,6 @@ final GoRouter appRouter = GoRouter(
         ),
       ],
     ),
-
     GoRoute(
       path: '/product/:id',
       name: 'product_detail',

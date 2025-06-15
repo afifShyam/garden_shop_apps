@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:garden_shop/routes/index.dart';
 import 'package:go_router/go_router.dart';
@@ -36,6 +38,7 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onPressed: () {
                   RouteStack.pop();
                   final previous = RouteStack.previous ?? '/home';
+                  log(previous, name: 'previous');
                   context.go(previous);
                 },
                 icon: Container(

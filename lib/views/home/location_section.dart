@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LocationSection extends StatelessWidget {
   const LocationSection({super.key});
@@ -12,7 +13,6 @@ class LocationSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section Title
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Text(
@@ -24,7 +24,6 @@ class LocationSection extends StatelessWidget {
           ),
         ),
 
-        // Static Map (OpenStreetMap)
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ClipRRect(
@@ -33,11 +32,9 @@ class LocationSection extends StatelessWidget {
               height: 180,
               child: FlutterMap(
                 options: MapOptions(
-                  initialCenter: LatLng(3.1073, 101.6078),
+                  initialCenter: LatLng(3.1198483, 101.6765434),
                   initialZoom: 13,
-                  interactionOptions: const InteractionOptions(
-                    flags: InteractiveFlag.none, // 🔒 static map
-                  ),
+                  interactionOptions: const InteractionOptions(flags: InteractiveFlag.none),
                 ),
                 children: [
                   TileLayer(
@@ -63,16 +60,15 @@ class LocationSection extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // Location Cards
         const _LocationItem(
-          title: 'Sunway Pyramid',
-          address: '10 Floor, Lorem Ipsum Mall,\nJalan SS23, Selangor, Malaysia',
+          title: 'The Gardens North Tower',
+          address: 'Level 30, The Gardens North Tower, Mid Valley City, 59200 Kuala Lumpur',
           time: '10am - 10pm',
         ),
         const SizedBox(height: 12),
         const _LocationItem(
-          title: 'The Gardens Mall',
-          address: '10 Floor, Lorem Ipsum Mall,\nJalan SS23, Selangor, Malaysia',
+          title: 'The Gardens South Tower',
+          address: 'Level 30, The Gardens South Tower, Mid Valley City, 59200 Kuala Lumpur',
           time: '10am - 10pm',
         ),
       ],
@@ -86,6 +82,18 @@ class _LocationItem extends StatelessWidget {
   final String time;
 
   const _LocationItem({required this.title, required this.address, required this.time});
+
+  void _openInMaps(String query) async {
+    final encodedQuery = Uri.encodeComponent(query);
+    final uri = Uri.parse('https://www.google.com/maps/search/?api=1&query=$encodedQuery');
+
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+      debugPrint('Could not launch $uri using external application. Trying default...');
+      if (!await launchUrl(uri)) {
+        debugPrint('Still failed to launch $uri.');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +112,16 @@ class _LocationItem extends StatelessWidget {
               const Icon(Icons.location_on, size: 16, color: Colors.green),
               const SizedBox(width: 4),
               Expanded(
-                child: Text(
-                  address,
-                  style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                child: InkWell(
+                  onTap: () => _openInMaps(address),
+                  child: Text(
+                    address,
+                    style: const TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.blue,
+                    ),
+                  ),
                 ),
               ),
             ],

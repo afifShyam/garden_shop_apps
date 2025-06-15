@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:garden_shop/gen/assets.gen.dart';
-import 'package:go_router/go_router.dart';
+import 'package:garden_shop/routes/index.dart';
 
 class ProductCard extends StatelessWidget {
   final String imageUrl;
@@ -28,9 +28,10 @@ class ProductCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        context.go(
-          '/product/1',
-          extra: {'imageUrl': imageUrl, 'title': title, 'subtitle': subtitle, 'price': price},
+        Nav.product(
+          context,
+          '1',
+          data: {'imageUrl': imageUrl, 'title': title, 'subtitle': subtitle, 'price': price},
         );
       },
       child: Card(
